@@ -1,15 +1,65 @@
 classDiagram
-    %% Replace the placeholders below with your actual classes, attributes, methods, and relationships.
-    %% Keep this file updated so it matches your final implementation.
-
-    class ClassName {
-        +type attribute
-        +method() returnType
+    class Owner {
+        +String name
+        +int availableMinutes
+        +List preferences
+        +updatePreferences()
+        +setAvailableTime()
     }
 
-    class AnotherClass {
-        +type attribute
-        +method() returnType
+    class Pet {
+        +String name
+        +String species
+        +int age
+        +List careNeeds
+        +updateInformation()
+        +addCareNeed()
     }
 
-    ClassName --> AnotherClass : relationship
+    class CareTask {
+        +String title
+        +String description
+        +int durationMinutes
+        +String priority
+        +String preferredTime
+        +String status
+        +updateDetails()
+        +markComplete()
+        +markDenied()
+    }
+
+    class TaskSuggestion {
+        +CareTask task
+        +String reason
+        +String status
+        +accept()
+        +deny()
+    }
+
+    class Scheduler {
+        +Owner owner
+        +List pets
+        +List tasks
+        +generateSchedule()
+        +rankTasks()
+        +filterTasksByAvailableTime()
+    }
+
+    class DailySchedule {
+        +Date date
+        +List scheduledTasks
+        +int totalMinutes
+        +addTask()
+        +removeTask()
+        +explainPlan()
+    }
+
+    Owner "1" --> "0..*" Pet : cares for
+    Owner "1" --> "0..*" CareTask : manages
+    Pet "1" --> "0..*" CareTask : needs
+    TaskSuggestion "1" --> "1" CareTask : suggests
+    Scheduler --> Owner : uses owner settings
+    Scheduler --> Pet : checks care needs
+    Scheduler --> CareTask : ranks and filters
+    Scheduler --> DailySchedule : creates
+    DailySchedule "1" o-- "0..*" CareTask : contains

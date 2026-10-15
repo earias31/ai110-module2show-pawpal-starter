@@ -2,6 +2,8 @@
 
 ## 1. System Design
 
+The user should be able to schedual tasks, input pet information, and deny suggested tasks.
+
 **a. Initial design**
 
 - Briefly describe your initial UML design.
