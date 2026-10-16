@@ -14,7 +14,7 @@ it needs, etc.
 
 **b. Design changes**
 
-Aded an optional pet association to each care task so the schedule can identify which pet needs the care while still allowing household-wide tasks. I also added daily availability to `DailySchedule`, since time can vary day by day.
+Added an optional pet association to each care task so the schedule can see which pet needs the care while still allowing household-wide tasks. Also added daily availability to `DailySchedule`, since time can vary day by day.
 
 ---
 
@@ -27,8 +27,11 @@ Aded an optional pet association to each care task so the schedule can identify 
 
 **b. Tradeoffs**
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
+The scheduler considers tasks in time order and
+keeps the earlier task when two timed tasks overlap, skipping the later one.
+That means an earlier low-priority task can take precedence over a later
+high-priority task, and the plan is not guaranteed to maximize the number of
+tasks or total priority. It makes sure everything is done but it does make it fully optimal.
 
 ---
 

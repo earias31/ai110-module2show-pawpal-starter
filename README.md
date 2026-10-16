@@ -73,14 +73,22 @@ Sample test output:
 
 ## 📐 Smarter Scheduling
 
-> Fill in once you've implemented scheduling logic.
+The scheduler keeps the demo's simple, deterministic behavior while adding a few
+useful safeguards for everyday planning. Preferred times use 24-hour `HH:MM`
+format; weekly tasks repeat on the weekday of their start date. A completed
+recurring task becomes eligible again at its next occurrence.
 
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Sorting | `Scheduler.sort_by_time()` and `Scheduler.rank_tasks()` | `sort_by_time()` orders preferred `HH:MM` times chronologically and puts untimed tasks last. `rank_tasks()` sorts eligible tasks by time, then priority, duration, and title. |
+| Filtering | `Scheduler.filter_tasks()` and `Scheduler.generate_schedule()` | Filter by pet object, pet name, or status. Schedule generation excludes denied tasks, completed one-time tasks, and recurring tasks that are not due on the requested date. |
+| Time budget | `Scheduler.filter_tasks_by_available_time()` and `Scheduler.generate_schedule()` | Greedily selects ranked tasks that fit the available minutes. |
+| Conflict detection and warnings | `Scheduler.detect_conflicts()`, `Scheduler.get_conflict_warnings()`, and `Scheduler.generate_schedule()` | Detects overlaps between positive-duration timed tasks, whether they belong to the same pet or different pets. The warning method returns readable messages instead of raising an error; schedule generation skips later overlaps and explains skipped tasks. |
+| Recurring tasks | `CareTask.is_due_on()`, `CareTask.create_next_occurrence()`, and `Scheduler.mark_task_complete()` | Daily tasks are due again the next day; weekly tasks repeat on the weekday of their start date. Completing a recurring task creates a fresh pending occurrence. |
+
+The standalone `main.py` is intentionally a fixed-data smoke demo, so its owner,
+pets, and sample tasks still need to be edited in code. The Streamlit app exposes
+task recurrence, schedule date, and pet/status filters for interactive use.
 
 ## 📸 Demo Walkthrough
 

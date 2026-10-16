@@ -24,10 +24,15 @@ classDiagram
         +String preferredTime
         +String status
         +String suggestionReason
+        +String recurrence
+        +Date recurrenceStartDate
+        +Set completedDates
         +Pet pet (optional)
         +updateDetails()
         +acceptSuggestion()
-        +markComplete()
+        +markComplete(completedOn)
+        +createNextOccurrence(completedOn)
+        +isDueOn(scheduleDate)
         +markDenied()
     }
 
@@ -36,7 +41,12 @@ classDiagram
         +List pets
         +List tasks
         +generateSchedule(scheduleDate, availableMinutes)
-        +rankTasks()
+        +filterTasks(pet, status, petName)
+        +sortByTime(tasks)
+        +markTaskComplete(task, completedOn)
+        +rankTasks(pet, status, scheduleDate)
+        +detectConflicts(tasks)
+        +getConflictWarnings(tasks)
         +filterTasksByAvailableTime(tasks, availableMinutes)
     }
 
@@ -45,6 +55,7 @@ classDiagram
         +int availableMinutes
         +List scheduledTasks
         +int totalMinutes
+        +List conflicts
         +addTask(task)
         +removeTask()
         +explainPlan()
