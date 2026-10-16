@@ -23,43 +23,38 @@ classDiagram
         +String priority
         +String preferredTime
         +String status
+        +String suggestionReason
+        +Pet pet (optional)
         +updateDetails()
+        +acceptSuggestion()
         +markComplete()
         +markDenied()
-    }
-
-    class TaskSuggestion {
-        +CareTask task
-        +String reason
-        +String status
-        +accept()
-        +deny()
     }
 
     class Scheduler {
         +Owner owner
         +List pets
         +List tasks
-        +generateSchedule()
+        +generateSchedule(scheduleDate, availableMinutes)
         +rankTasks()
-        +filterTasksByAvailableTime()
+        +filterTasksByAvailableTime(tasks, availableMinutes)
     }
 
     class DailySchedule {
         +Date date
+        +int availableMinutes
         +List scheduledTasks
         +int totalMinutes
-        +addTask()
+        +addTask(task)
         +removeTask()
         +explainPlan()
     }
 
     Owner "1" --> "0..*" Pet : cares for
     Owner "1" --> "0..*" CareTask : manages
-    Pet "1" --> "0..*" CareTask : needs
-    TaskSuggestion "1" --> "1" CareTask : suggests
+    Pet "0..1" <-- "0..*" CareTask : assigned to
     Scheduler --> Owner : uses owner settings
     Scheduler --> Pet : checks care needs
     Scheduler --> CareTask : ranks and filters
     Scheduler --> DailySchedule : creates
-    DailySchedule "1" o-- "0..*" CareTask : contains
+    DailySchedule "1" o-- "0..*" CareTask : stores tasks added with addTask

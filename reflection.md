@@ -7,12 +7,14 @@ The user should be able to schedual tasks, input pet information, and deny sugge
 **a. Initial design**
 
 - Briefly describe your initial UML design.
-- What classes did you include, and what responsibilities did you assign to each?
+- I included the Owner Class, Pet Class, and daily schedual. The owner stores
+things like name and availible times. Daily scheudual has tasks a person can
+mark as compleete and deny any tasks. The pet class stores the name and what 
+it needs, etc.
 
 **b. Design changes**
 
-- Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+Aded an optional pet association to each care task so the schedule can identify which pet needs the care while still allowing household-wide tasks. I also added daily availability to `DailySchedule`, since time can vary day by day.
 
 ---
 
