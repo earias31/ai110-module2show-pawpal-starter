@@ -23,7 +23,7 @@ def test_adding_task_increases_pet_task_count() -> None:
     assert len(pet.tasks) == initial_task_count + 1
 
 
-def test_scheduler_sorts_by_time_before_priority() -> None:
+def test_scheduler_returns_tasks_in_chronological_order() -> None:
     later_high_priority = CareTask(
         title="Evening medicine", preferred_time="18:00", priority="high"
     )
@@ -131,6 +131,24 @@ def test_daily_completion_defaults_next_due_date_to_tomorrow() -> None:
     assert next_task.recurrence_start_date == today + timedelta(days=1)
 
 
+def test_completing_daily_task_creates_next_task_for_following_day() -> None:
+    completed_on = date(2026, 10, 16)
+    task = CareTask(
+        title="Daily feeding",
+        recurrence="daily",
+        recurrence_start_date=completed_on,
+    )
+    scheduler = Scheduler(Owner(), tasks=[task])
+
+    next_task = scheduler.mark_task_complete(task, completed_on)
+
+    assert next_task is not None
+    assert next_task is not task
+    assert next_task.status == "pending"
+    assert next_task.recurrence_start_date == completed_on + timedelta(days=1)
+    assert next_task in scheduler.tasks
+
+
 def test_completing_one_time_task_does_not_create_another_instance() -> None:
     task = CareTask(title="One-time vet visit")
     scheduler = Scheduler(Owner(), tasks=[task])
@@ -150,6 +168,14 @@ def test_schedule_skips_overlapping_tasks_and_reports_conflict() -> None:
     assert schedule.scheduled_tasks == [breakfast, walk]
     assert schedule.conflicts == [(breakfast, medicine)]
     assert "Medicine overlaps with Breakfast" in schedule.explain_plan()
+    assert scheduler.detect_conflicts() == [(breakfast, medicine)]
+
+
+def test_detect_conflicts_flags_tasks_with_duplicate_start_times() -> None:
+    breakfast = CareTask(title="Breakfast", preferred_time="08:00", duration_minutes=10)
+    medicine = CareTask(title="Medicine", preferred_time="08:00", duration_minutes=5)
+    scheduler = Scheduler(Owner(), tasks=[breakfast, medicine])
+
     assert scheduler.detect_conflicts() == [(breakfast, medicine)]
 
 

@@ -57,19 +57,33 @@ Total: 55/90 minutes.
 
 ## 🧪 Testing PawPal+
 
+Run the test suite from the project root:
+
 ```bash
-# Run the full test suite:
-pytest
-
-# Run with coverage:
-pytest --cov
+python -m pytest
 ```
 
-Sample test output:
+The tests cover task completion and pet assignment, chronological sorting,
+filtering, daily and weekly recurrence, schedule generation, overlapping and
+duplicate-time conflict detection, and preferred-time validation.
+
+Successful test run:
 
 ```
-# Paste your pytest output here
+============================= test session starts =============================
+platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\erick\ai110-module2show-pawpal-starter
+plugins: anyio-4.15.1
+collected 16 items
+
+tests\test_pawpal.py ................                                    [100%]
+
+============================= 16 passed in 0.14s ==============================
 ```
+
+**Confidence Level:** ★★★★☆ (4/5) — all 16 tests pass and cover key scheduling
+behaviors; passing tests provide confidence in the tested cases, not a guarantee
+of reliability in every scenario.
 
 ## 📐 Smarter Scheduling
 
