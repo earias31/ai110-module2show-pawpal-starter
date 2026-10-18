@@ -31,7 +31,7 @@ The scheduler considers tasks in time order and
 keeps the earlier task when two timed tasks overlap, skipping the later one.
 That means an earlier low-priority task can take precedence over a later
 high-priority task, and the plan is not guaranteed to maximize the number of
-tasks or total priority. It makes sure everything is done but it does make it fully optimal.
+tasks or total priority. It makes sure everything is done but it does make it not fully optimal.
 
 ---
 
@@ -39,13 +39,13 @@ tasks or total priority. It makes sure everything is done but it does make it fu
 
 **a. How you used AI**
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
-- What kinds of prompts or questions were most helpful?
+- Brainstorming, problem solving, and explaining.
+- The ones asking the ai to explain itself helped me undertsand more of what was going on.
 
 **b. Judgment and verification**
 
-- Describe one moment where you did not accept an AI suggestion as-is.
-- How did you evaluate or verify what the AI suggested?
+- The first UML was needlessly complicated. I had to edit it a few times
+- A lot of the verifying was done double checking the added and deleted files
 
 ---
 
@@ -53,13 +53,14 @@ tasks or total priority. It makes sure everything is done but it does make it fu
 
 **a. What you tested**
 
-- What behaviors did you test?
-- Why were these tests important?
+- Just standard uses of the app.
+- If the app doesnt work, something has gone wrong. Simulating standard user use is important
+to any project
 
 **b. Confidence**
 
-- How confident are you that your scheduler works correctly?
-- What edge cases would you test next if you had more time?
+- Moderatly confident.
+- Perhaps a lot of gibbarish or numbers past the bit limit.
 
 ---
 
@@ -67,12 +68,17 @@ tasks or total priority. It makes sure everything is done but it does make it fu
 
 **a. What went well**
 
-- What part of this project are you most satisfied with?
+- Using the ai felt smooth and familiar.
 
 **b. What you would improve**
 
-- If you had another iteration, what would you improve or redesign?
+- I cant tell exactly, but it feels bare. It feels like a project, which it is, but something
+about it makes it seem primative. I would like to improve the app to be more polished, and improve
+myself by figuring out what specifically caused this.
 
 **c. Key takeaway**
 
-- What is one important thing you learned about designing systems or working with AI on this project?
+- Ai is a tool, not the solution. You use a hammer to drive in nails, or a knife to cut food. 
+You shouldnt try to use a hammer for a screw, or a knife on not food. Ai can be good and bad,
+and it made me even more condifent that the future of coding isnt going to be replaced by ai, but
+skilled coders using ai as another tool of theirs they can use.

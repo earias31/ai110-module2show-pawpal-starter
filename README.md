@@ -70,20 +70,15 @@ duplicate-time conflict detection, and preferred-time validation.
 Successful test run:
 
 ```
-============================= test session starts =============================
-platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0
-rootdir: C:\Users\erick\ai110-module2show-pawpal-starter
-plugins: anyio-4.15.1
-collected 16 items
+user data
 
 tests\test_pawpal.py ................                                    [100%]
 
 ============================= 16 passed in 0.14s ==============================
 ```
 
-**Confidence Level:** ★★★★☆ (4/5) — all 16 tests pass and cover key scheduling
-behaviors; passing tests provide confidence in the tested cases, not a guarantee
-of reliability in every scenario.
+**Confidence Level:** (4/5) — all 16 tests pass and cover key scheduling
+behaviors. The passing tests provide confidence in the tested cases, but of course theres always a possiblity of failure in some random edgecase.
 
 ## 📐 Smarter Scheduling
 
@@ -108,10 +103,10 @@ task recurrence, schedule date, and pet/status filters for interactive use.
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User enters their
+2. User enters pet information
+3. User adds tasks and its details
+4. Feel free to add and remove tasks as you see fit.
+5. View the schedual and make any changes if needed
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->

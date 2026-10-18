@@ -97,6 +97,7 @@ if add_task:
         st.success(f"Added task: {task.title}.")
 
 tasks = owner.get_all_tasks()
+scheduler = Scheduler(owner)
 if tasks:
     st.write("Current tasks:")
     pet_filter = st.selectbox(
@@ -108,15 +109,17 @@ if tasks:
         "Filter by status",
         ["All statuses", "pending", "accepted", "completed", "denied"],
     )
-    visible_tasks = Scheduler(owner).filter_tasks(
+    visible_tasks = scheduler.filter_tasks(
         pet=None if pet_filter == -1 else owner.pets[pet_filter],
         status=None if status_filter == "All statuses" else status_filter,
     )
+    visible_tasks = scheduler.sort_by_time(visible_tasks)
     st.table(
         [
             {
                 "Task": task.title,
                 "Pet": task.pet.name if task.pet is not None else "Household",
+                "Preferred time": task.preferred_time or "Not set",
                 "Duration (min)": task.duration_minutes,
                 "Priority": task.priority,
                 "Status": task.status,
@@ -125,6 +128,12 @@ if tasks:
             for task in visible_tasks
         ]
     )
+    conflict_warnings = scheduler.get_conflict_warnings(visible_tasks)
+    if conflict_warnings:
+        for warning in conflict_warnings:
+            st.warning(warning)
+    else:
+        st.success("No scheduling conflicts found for the filtered tasks.")
 
     incomplete_tasks = [
         task for task in tasks if task.status in {"pending", "accepted"}
@@ -140,7 +149,7 @@ if tasks:
             key="task_to_complete",
         )
         if st.button("Mark complete"):
-            next_task = Scheduler(owner).mark_task_complete(task_to_complete)
+            next_task = scheduler.mark_task_complete(task_to_complete)
             if next_task is None:
                 st.success(f"Completed {task_to_complete.title}.")
             else:
@@ -164,9 +173,33 @@ if st.button("Generate schedule"):
     selected_status = (
         None if not tasks or status_filter == "All statuses" else status_filter
     )
-    schedule = Scheduler(owner).generate_schedule(
+    schedule = scheduler.generate_schedule(
         schedule_date=schedule_date,
         pet=selected_pet,
         status=selected_status,
     )
-    st.markdown(schedule.explain_plan())
+    st.success(
+        f"Schedule for {schedule.schedule_date.isoformat()}: "
+        f"{schedule.total_minutes} of {schedule.available_minutes} minutes planned."
+    )
+    if schedule.scheduled_tasks:
+        st.table(
+            [
+                {
+                    "Task": task.title,
+                    "Pet": task.pet.name if task.pet is not None else "Household",
+                    "Preferred time": task.preferred_time or "Not set",
+                    "Duration (min)": task.duration_minutes,
+                    "Priority": task.priority,
+                }
+                for task in schedule.scheduled_tasks
+            ]
+        )
+    else:
+        st.info("No tasks fit the selected date, filters, and available time.")
+
+    if schedule.conflicts:
+        for earlier, later in schedule.conflicts:
+            st.warning(
+                f"Skipped {later.title} because it overlaps with {earlier.title}."
+            )

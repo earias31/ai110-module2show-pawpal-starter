@@ -1,0 +1,77 @@
+classDiagram
+    class Owner {
+        +String name
+        +int available_minutes
+        +List preferences
+        +List pets
+        +List tasks
+        +update_preferences(preferences)
+        +set_available_time(minutes)
+        +add_pet(pet)
+        +get_all_tasks()
+    }
+
+    class Pet {
+        +String name
+        +String species
+        +int age
+        +List care_needs
+        +List tasks
+        +update_information(name, species, age)
+        +add_care_need(need)
+        +add_task(task)
+    }
+
+    class CareTask {
+        +String title
+        +String description
+        +int duration_minutes
+        +String priority
+        +String preferred_time
+        +String status
+        +String suggestion_reason
+        +String recurrence
+        +Date recurrence_start_date
+        +Set completed_dates
+        +Pet pet
+        +update_details(title, duration_minutes, priority)
+        +accept_suggestion()
+        +mark_complete(completed_on)
+        +create_next_occurrence(completed_on)
+        +is_due_on(schedule_date)
+        +mark_denied()
+    }
+
+    class DailySchedule {
+        +Date schedule_date
+        +int available_minutes
+        +List scheduled_tasks
+        +int total_minutes
+        +List conflicts
+        +add_task(task)
+        +remove_task(task)
+        +explain_plan()
+    }
+
+    class Scheduler {
+        +Owner owner
+        +List pets
+        +List tasks
+        +generate_schedule(schedule_date, pet, status)
+        +filter_tasks(pet, status, pet_name)
+        +sort_by_time(tasks)
+        +rank_tasks(pet, status, schedule_date)
+        +mark_task_complete(task, completed_on)
+        +detect_conflicts(tasks)
+        +get_conflict_warnings(tasks)
+        +filter_tasks_by_available_time(tasks, available_minutes)
+    }
+
+    Owner "1" --> "0..*" Pet : cares for
+    Owner "1" --> "0..*" CareTask : manages
+    Pet "0..1" <-- "0..*" CareTask : assigned to
+    Scheduler --> Owner : uses owner settings
+    Scheduler --> Pet : checks care needs
+    Scheduler --> CareTask : ranks and filters
+    Scheduler --> DailySchedule : creates
+    DailySchedule "1" o-- "0..*" CareTask : stores scheduled tasks
